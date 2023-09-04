@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: xingchen-backend-user-service
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  session:
+    store-type: redis
+    timeout: 2592000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xingchenoj?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 419520
+    # Redis 配置
+  redis:
+    database: 1
+    host: 23.224.98.132
+    port: 6379
+    timeout: 50000
+    password: 419520
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+server:
+  address: 0.0.0.0
+  port: 8102
+  servlet:
+    context-path: /api/user
+    session:
+      cookie:
+        max-age: 2592000
+        path: /api
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # ????????????
+      logic-delete-value: 1 # ?????????? 1?
+      logic-not-delete-value: 0 # ?????????? 0?
+codesandbox:
+  type: remote
+knife4j:
+  enable: true
