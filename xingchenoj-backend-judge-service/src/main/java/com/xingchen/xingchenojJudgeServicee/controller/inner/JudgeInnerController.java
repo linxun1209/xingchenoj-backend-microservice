@@ -1,4 +1,4 @@
-package com.xingchen.xingchenojJudgeServicee.inner;
+package com.xingchen.xingchenojJudgeServicee.controller.inner;
 
 
 import com.xingchen.xingchenojJudgeServicee.judge.JudgeService;

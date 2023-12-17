@@ -41,8 +41,9 @@ spring:
   rabbitmq:
     host: 23.224.98.132
     port: 5672
-    password: guest
-    username: guest
+    password: 419520
+    username: 419520
+    virtual-host: my_vhost
 server:
   address: 0.0.0.0
   port: 8103

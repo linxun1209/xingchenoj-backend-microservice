@@ -1,7 +1,6 @@
 package com.xingchen.xingchenojJudgeServicee.judge;
 
 import cn.hutool.json.JSONUtil;
-
 import com.xingchen.xingchenojCommon.common.ErrorCode;
 import com.xingchen.xingchenojCommon.exception.BusinessException;
 import com.xingchen.xingchenojJudgeServicee.judge.codesandbox.CodeSandbox;
@@ -14,6 +13,7 @@ import com.xingchen.xingchenojModel.codesandbox.model.JudgeInfo;
 import com.xingchen.xingchenojModel.dto.question.JudgeCase;
 import com.xingchen.xingchenojModel.entity.Question;
 import com.xingchen.xingchenojModel.entity.QuestionSubmit;
+import com.xingchen.xingchenojModel.enums.JudgeInfoMessageEnum;
 import com.xingchen.xingchenojModel.enums.QuestionSubmitStatusEnum;
 import com.xingchen.xingchenojService.QuestionFeignClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,6 +91,15 @@ public class JudgeServiceImpl implements JudgeService {
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         update = questionFeignClient.updateQuestionSubmitById(questionSubmitUpdate);
+
+        // 修改题目的提交数、通过数
+        question.setSubmitNum(question.getSubmitNum() + 1);
+        if (JudgeInfoMessageEnum.ACCEPTED.getValue().equals(judgeInfo.getMessage())) {
+            question.setAcceptedNum(question.getAcceptedNum() + 1);
+        }
+
+        questionFeignClient.updateQuestionById(question);
+
         if (!update) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
         }
