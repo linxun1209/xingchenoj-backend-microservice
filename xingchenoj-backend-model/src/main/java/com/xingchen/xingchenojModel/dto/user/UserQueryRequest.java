@@ -21,6 +21,13 @@ public class UserQueryRequest extends PageRequest implements Serializable {
      */
     private Long id;
 
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+
     /**
      * 开放平台id
      */

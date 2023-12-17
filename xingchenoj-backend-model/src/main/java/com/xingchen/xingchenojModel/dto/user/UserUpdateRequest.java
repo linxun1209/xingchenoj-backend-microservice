@@ -12,6 +12,12 @@ import java.io.Serializable;
  */
 @Data
 public class UserUpdateRequest implements Serializable {
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
     /**
      * id
      */

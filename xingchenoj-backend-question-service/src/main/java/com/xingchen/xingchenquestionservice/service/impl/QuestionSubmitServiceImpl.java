@@ -11,6 +11,7 @@ import com.xingchen.xingchenojCommon.common.ErrorCode;
 import com.xingchen.xingchenojCommon.constant.CommonConstant;
 import com.xingchen.xingchenojCommon.exception.BusinessException;
 import com.xingchen.xingchenojCommon.utils.SqlUtils;
+import com.xingchen.xingchenojModel.dto.question.JudgeConfig;
 import com.xingchen.xingchenojModel.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.xingchen.xingchenojModel.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.xingchen.xingchenojModel.entity.Question;
@@ -19,12 +20,14 @@ import com.xingchen.xingchenojModel.entity.User;
 import com.xingchen.xingchenojModel.enums.QuestionSubmitLanguageEnum;
 import com.xingchen.xingchenojModel.enums.QuestionSubmitStatusEnum;
 import com.xingchen.xingchenojModel.vo.QuestionSubmitVO;
+import com.xingchen.xingchenojModel.vo.QuestionVO;
 import com.xingchen.xingchenojService.JudgeFeignClient;
 import com.xingchen.xingchenojService.UserFeignClient;
 import com.xingchen.xingchenquestionservice.mapper.QuestionSubmitMapper;
 import com.xingchen.xingchenquestionservice.rabbitmq.MyMessageProducer;
 import com.xingchen.xingchenquestionservice.service.QuestionService;
 import com.xingchen.xingchenquestionservice.service.QuestionSubmitService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -155,6 +158,20 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
                 .collect(Collectors.toList());
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
+    }
+
+    @Override
+    public QuestionSubmitVO QuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser) {
+        QuestionSubmitVO questionSubmitVO=new QuestionSubmitVO();
+        BeanUtils.copyProperties(questionSubmit, questionSubmitVO);
+        questionSubmitVO.getId();
+        Question question = questionService.getById(questionSubmitVO.getQuestionId());
+        QuestionVO questionVO=new QuestionVO();
+        BeanUtils.copyProperties(question, questionVO);
+        questionSubmitVO.setQuestionVO(questionVO);
+        JudgeConfig judgeConfig=new JudgeConfig();
+        questionVO.setJudgeConfig(judgeConfig);
+        return questionSubmitVO;
     }
 
 

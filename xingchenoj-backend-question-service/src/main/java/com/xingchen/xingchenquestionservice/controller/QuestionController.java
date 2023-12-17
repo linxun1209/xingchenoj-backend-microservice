@@ -357,5 +357,23 @@ public class QuestionController {
     }
 
 
+    /**
+     * 获取提交题目的封装（仅本人能看见自己提交的代码）
+     * @param id
+     * @return
+     */
+    @GetMapping("/question_submit/get/vo")
+    public BaseResponse<QuestionVO> getQuestionQuestionSubmitGetVo(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        QuestionSubmit questionSubmit = questionSubmitService.getById(id);
+        Question question = questionService.getById(questionSubmit.getQuestionId());
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        return ResultUtils.success(questionService.getQuestionVO(question, request));
+    }
+
 
 }
