@@ -33,6 +33,12 @@ public class QuestionVO implements Serializable {
      */
     private String title;
 
+
+    /**
+     * 题目答案
+     */
+    private String answer;
+
     /**
      * 内容
      */
